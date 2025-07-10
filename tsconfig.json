@@ -15,7 +15,12 @@
     "jsx": "react-jsx",
 
     /* Linting */
-    "strict": false
+    "strict": false,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@/plugins/*": ["plugins/*"]
+    }
   },
   "include": ["src"],
   "references": [{"path": "./tsconfig.node.json"}]

@@ -1,12 +1,12 @@
-import React from 'react';
-import { format } from 'date-fns';
-import { Icon } from '@iconify/react';
-import { 
-  Card, 
-  CardBody, 
+import React from "react";
+import { format } from "date-fns";
+import { Icon } from "@iconify/react";
+import {
+  Card,
+  CardBody,
   CardHeader,
   CardFooter,
-  Divider, 
+  Divider,
   Chip,
   Progress,
   Spinner,
@@ -18,53 +18,57 @@ import {
   TableCell,
   Button,
   Link,
-  Tooltip
-} from '@heroui/react';
-import { 
-  BarChart, 
-  Bar, 
-  LineChart, 
-  Line, 
-  PieChart, 
-  Pie, 
-  Cell, 
+  Tooltip,
+} from "@heroui/react";
+import {
+  BarChart,
+  Bar,
+  LineChart,
+  Line,
+  PieChart,
+  Pie,
+  Cell,
   ResponsiveContainer,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip as RechartsTooltip,
-  Legend
-} from 'recharts';
-import { 
-  useDashboardMetrics, 
-  useRecentSavedOffers, 
+  Legend,
+} from "recharts";
+import {
+  useDashboardMetrics,
+  useRecentSavedOffers,
   useOffersPerSourceData,
   useApplicationStatusData,
   useOffersPerWeekData,
-  useJobSources
-} from '../../hooks/use-job-data';
-import { JobOffer, JobSource } from '../../data/mock-data';
+  useJobSources,
+} from "../../hooks/use-job-data";
+import { JobOffer, JobSource } from "../../data/mock-data";
 
 // Define chart colors
-const COLORS = ['#0ea5e9', '#9333ea', '#16c95f', '#f5a524', '#e32430'];
+const COLORS = ["#0ea5e9", "#9333ea", "#16c95f", "#f5a524", "#e32430"];
 
 export const HomePage: React.FC = () => {
   // Fetch data using React Query
   const { data: metrics, isLoading: isLoadingMetrics } = useDashboardMetrics();
-  const { data: recentOffers, isLoading: isLoadingRecent } = useRecentSavedOffers();
-  const { data: offersPerSource, isLoading: isLoadingSourceData } = useOffersPerSourceData();
-  const { data: applicationStatus, isLoading: isLoadingStatusData } = useApplicationStatusData();
-  const { data: weeklyData, isLoading: isLoadingWeeklyData } = useOffersPerWeekData();
+  const { data: recentOffers, isLoading: isLoadingRecent } =
+    useRecentSavedOffers();
+  const { data: offersPerSource, isLoading: isLoadingSourceData } =
+    useOffersPerSourceData();
+  const { data: applicationStatus, isLoading: isLoadingStatusData } =
+    useApplicationStatusData();
+  const { data: weeklyData, isLoading: isLoadingWeeklyData } =
+    useOffersPerWeekData();
   const { data: sources } = useJobSources();
 
   const getSourceName = (sourceId: string): string => {
-    const source = sources?.find(s => s.id === sourceId);
-    return source?.name || 'Unknown';
+    const source = sources?.find((s) => s.id === sourceId);
+    return source?.name || "Unknown";
   };
 
   const getSourceLogo = (sourceId: string): string => {
-    const source = sources?.find(s => s.id === sourceId);
-    return source?.logo || 'lucide:briefcase';
+    const source = sources?.find((s) => s.id === sourceId);
+    return source?.logo || "lucide:briefcase";
   };
 
   if (isLoadingMetrics) {
@@ -93,7 +97,9 @@ export const HomePage: React.FC = () => {
             </div>
             <div>
               <p className="text-sm text-foreground-500">Saved Offers</p>
-              <p className="text-2xl font-semibold">{metrics?.totalSavedOffers}</p>
+              <p className="text-2xl font-semibold">
+                {metrics?.totalSavedOffers}
+              </p>
             </div>
           </CardBody>
         </Card>
@@ -101,12 +107,18 @@ export const HomePage: React.FC = () => {
         <Card className="bg-content1">
           <CardBody className="flex flex-row items-center gap-4">
             <div className="p-3 rounded-lg bg-secondary/20">
-              <Icon icon="lucide:briefcase" className="text-secondary text-2xl" />
+              <Icon
+                icon="lucide:briefcase"
+                className="text-secondary text-2xl"
+              />
             </div>
             <div>
               <p className="text-sm text-foreground-500">Job Sources</p>
               <p className="text-2xl font-semibold">
-                {metrics?.activeSourcesCount} <span className="text-sm text-foreground-500">/ {metrics?.totalSources}</span>
+                {metrics?.activeSourcesCount}{" "}
+                <span className="text-sm text-foreground-500">
+                  / {metrics?.totalSources}
+                </span>
               </p>
             </div>
           </CardBody>
@@ -115,11 +127,16 @@ export const HomePage: React.FC = () => {
         <Card className="bg-content1">
           <CardBody className="flex flex-row items-center gap-4">
             <div className="p-3 rounded-lg bg-success/20">
-              <Icon icon="lucide:check-circle" className="text-success text-2xl" />
+              <Icon
+                icon="lucide:check-circle"
+                className="text-success text-2xl"
+              />
             </div>
             <div>
               <p className="text-sm text-foreground-500">Applications Sent</p>
-              <p className="text-2xl font-semibold">{metrics?.applicationStatusCounts.applied}</p>
+              <p className="text-2xl font-semibold">
+                {metrics?.applicationStatusCounts.applied}
+              </p>
             </div>
           </CardBody>
         </Card>
@@ -130,8 +147,12 @@ export const HomePage: React.FC = () => {
               <Icon icon="lucide:hourglass" className="text-warning text-2xl" />
             </div>
             <div>
-              <p className="text-sm text-foreground-500">Pending Applications</p>
-              <p className="text-2xl font-semibold">{metrics?.applicationStatusCounts.notApplied}</p>
+              <p className="text-sm text-foreground-500">
+                Pending Applications
+              </p>
+              <p className="text-2xl font-semibold">
+                {metrics?.applicationStatusCounts.notApplied}
+              </p>
             </div>
           </CardBody>
         </Card>
@@ -145,7 +166,9 @@ export const HomePage: React.FC = () => {
             <Icon icon="lucide:pie-chart" className="text-lg text-primary" />
             <div className="flex flex-col">
               <p className="text-md">Offers by Source</p>
-              <p className="text-small text-default-500">Distribution of saved job offers by source</p>
+              <p className="text-small text-default-500">
+                Distribution of saved job offers by source
+              </p>
             </div>
           </CardHeader>
           <Divider />
@@ -167,15 +190,25 @@ export const HomePage: React.FC = () => {
                       fill="#8884d8"
                       paddingAngle={5}
                       dataKey="value"
-                      label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                      label={({ name, percent }) =>
+                        `${name} ${(percent * 100).toFixed(0)}%`
+                      }
                       labelLine={false}
                     >
                       {offersPerSource?.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={COLORS[index % COLORS.length]}
+                        />
                       ))}
                     </Pie>
                     <Legend />
-                    <RechartsTooltip formatter={(value: number) => [`${value} offers`, 'Count']} />
+                    <RechartsTooltip
+                      formatter={(value: number) => [
+                        `${value} offers`,
+                        "Count",
+                      ]}
+                    />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
@@ -189,7 +222,9 @@ export const HomePage: React.FC = () => {
             <Icon icon="lucide:bar-chart" className="text-lg text-primary" />
             <div className="flex flex-col">
               <p className="text-md">Application Status</p>
-              <p className="text-small text-default-500">Breakdown of application progress</p>
+              <p className="text-small text-default-500">
+                Breakdown of application progress
+              </p>
             </div>
           </CardHeader>
           <Divider />
@@ -203,24 +238,34 @@ export const HomePage: React.FC = () => {
                 <div className="space-y-3">
                   <div className="flex justify-between text-sm">
                     <span>Applied</span>
-                    <span className="font-medium">{applicationStatus?.[0].value} jobs</span>
+                    <span className="font-medium">
+                      {applicationStatus?.[0].value} jobs
+                    </span>
                   </div>
-                  <Progress 
-                    color="success" 
-                    value={applicationStatus?.[0].value} 
-                    maxValue={(applicationStatus?.[0].value || 0) + (applicationStatus?.[1].value || 0)}
+                  <Progress
+                    color="success"
+                    value={applicationStatus?.[0].value}
+                    maxValue={
+                      (applicationStatus?.[0].value || 0) +
+                      (applicationStatus?.[1].value || 0)
+                    }
                   />
                 </div>
-                
+
                 <div className="space-y-3">
                   <div className="flex justify-between text-sm">
                     <span>Not Applied</span>
-                    <span className="font-medium">{applicationStatus?.[1].value} jobs</span>
+                    <span className="font-medium">
+                      {applicationStatus?.[1].value} jobs
+                    </span>
                   </div>
-                  <Progress 
-                    color="warning" 
-                    value={applicationStatus?.[1].value} 
-                    maxValue={(applicationStatus?.[0].value || 0) + (applicationStatus?.[1].value || 0)}
+                  <Progress
+                    color="warning"
+                    value={applicationStatus?.[1].value}
+                    maxValue={
+                      (applicationStatus?.[0].value || 0) +
+                      (applicationStatus?.[1].value || 0)
+                    }
                   />
                 </div>
 
@@ -228,15 +273,23 @@ export const HomePage: React.FC = () => {
                   <div className="flex justify-between items-center">
                     <span className="text-sm">Total completion</span>
                     <span className="text-sm font-medium">
-                      {applicationStatus && 
-                        Math.round((applicationStatus[0].value / (applicationStatus[0].value + applicationStatus[1].value)) * 100)
-                      }%
+                      {applicationStatus &&
+                        Math.round(
+                          (applicationStatus[0].value /
+                            (applicationStatus[0].value +
+                              applicationStatus[1].value)) *
+                            100
+                        )}
+                      %
                     </span>
                   </div>
-                  <Progress 
-                    color="primary" 
-                    value={applicationStatus?.[0].value} 
-                    maxValue={(applicationStatus?.[0].value || 0) + (applicationStatus?.[1].value || 0)}
+                  <Progress
+                    color="primary"
+                    value={applicationStatus?.[0].value}
+                    maxValue={
+                      (applicationStatus?.[0].value || 0) +
+                      (applicationStatus?.[1].value || 0)
+                    }
                     aria-label="Application completion rate"
                   />
                 </div>
@@ -251,7 +304,9 @@ export const HomePage: React.FC = () => {
             <Icon icon="lucide:line-chart" className="text-lg text-primary" />
             <div className="flex flex-col">
               <p className="text-md">Weekly Progress</p>
-              <p className="text-small text-default-500">Job offers saved and applications sent</p>
+              <p className="text-small text-default-500">
+                Job offers saved and applications sent
+              </p>
             </div>
           </CardHeader>
           <Divider />
@@ -267,16 +322,35 @@ export const HomePage: React.FC = () => {
                     data={weeklyData}
                     margin={{ top: 5, right: 5, left: -20, bottom: 5 }}
                   >
-                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
-                    <XAxis dataKey="name" tick={{ fill: '#a1a1aa', fontSize: 12 }} />
-                    <YAxis tick={{ fill: '#a1a1aa', fontSize: 12 }} />
-                    <RechartsTooltip 
-                      contentStyle={{ backgroundColor: '#18181b', borderColor: '#3f3f46' }}
-                      itemStyle={{ color: '#fafafa' }}
+                    <CartesianGrid
+                      strokeDasharray="3 3"
+                      stroke="rgba(255,255,255,0.1)"
+                    />
+                    <XAxis
+                      dataKey="name"
+                      tick={{ fill: "#a1a1aa", fontSize: 12 }}
+                    />
+                    <YAxis tick={{ fill: "#a1a1aa", fontSize: 12 }} />
+                    <RechartsTooltip
+                      contentStyle={{
+                        backgroundColor: "#18181b",
+                        borderColor: "#3f3f46",
+                      }}
+                      itemStyle={{ color: "#fafafa" }}
                     />
                     <Legend />
-                    <Line type="monotone" dataKey="saved" stroke="#0ea5e9" activeDot={{ r: 6 }} />
-                    <Line type="monotone" dataKey="applied" stroke="#16c95f" activeDot={{ r: 6 }} />
+                    <Line
+                      type="monotone"
+                      dataKey="saved"
+                      stroke="#0ea5e9"
+                      activeDot={{ r: 6 }}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="applied"
+                      stroke="#16c95f"
+                      activeDot={{ r: 6 }}
+                    />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
@@ -292,7 +366,9 @@ export const HomePage: React.FC = () => {
             <Icon icon="lucide:clock" className="text-lg text-primary" />
             <div>
               <h3 className="text-md font-medium">Recently Saved Offers</h3>
-              <p className="text-small text-default-500">Latest job offers you've saved</p>
+              <p className="text-small text-default-500">
+                Latest job offers you've saved
+              </p>
             </div>
           </div>
           <Link href="/saved-offers" color="primary" showAnchorIcon>
@@ -320,7 +396,9 @@ export const HomePage: React.FC = () => {
                   <TableRow key={offer.id}>
                     <TableCell>
                       <div className="font-medium">{offer.title}</div>
-                      <div className="text-xs text-foreground-500">{offer.location}</div>
+                      <div className="text-xs text-foreground-500">
+                        {offer.location}
+                      </div>
                     </TableCell>
                     <TableCell>{offer.company}</TableCell>
                     <TableCell>
@@ -329,12 +407,18 @@ export const HomePage: React.FC = () => {
                         <span>{getSourceName(offer.sourceId)}</span>
                       </div>
                     </TableCell>
-                    <TableCell>{format(new Date(offer.createdAt), 'MMM dd, yyyy')}</TableCell>
+                    <TableCell>
+                      {format(new Date(offer.createdAt), "MMM dd, yyyy")}
+                    </TableCell>
                     <TableCell>
                       {offer.appliedAt ? (
-                        <Chip color="success" size="sm">Applied</Chip>
+                        <Chip color="success" size="sm">
+                          Applied
+                        </Chip>
                       ) : (
-                        <Chip color="warning" size="sm">Not Applied</Chip>
+                        <Chip color="warning" size="sm">
+                          Not Applied
+                        </Chip>
                       )}
                     </TableCell>
                     <TableCell>
